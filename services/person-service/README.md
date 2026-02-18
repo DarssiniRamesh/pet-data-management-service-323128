@@ -12,10 +12,32 @@ Preserve the original contract **initially**, including:
 
 ## Run
 
+Preferred (uses this service's local Gradle wrapper):
+
 ```bash
 cd pet-data-management-service-323128/services/person-service
-../..//pets_backend/gradlew bootRun
+./gradlew bootRun
 ```
+
+Run on a dedicated port (recommended when running alongside the monolith/gateway):
+
+```bash
+cd pet-data-management-service-323128/services/person-service
+./gradlew bootRun --args='--server.port=3002'
+```
+
+Fallback options:
+
+- Use the monolith wrapper (works even if you don't have Gradle installed):
+  ```bash
+  cd pet-data-management-service-323128/services/person-service
+  ../../pets_backend/gradlew bootRun
+  ```
+- Or use a locally installed Gradle:
+  ```bash
+  cd pet-data-management-service-323128/services/person-service
+  gradle bootRun
+  ```
 
 ## Database migrations (Flyway)
 
