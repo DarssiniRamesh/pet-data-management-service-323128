@@ -12,13 +12,13 @@ public class PersonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
+	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
 
-	@Column(nullable = false, length = 100)
+	@Column(name = "last_name", nullable = false, length = 100)
 	private String lastName;
 
-	@Column(nullable = false, length = 254, unique = true)
+	@Column(name = "email", nullable = false, length = 254, unique = true)
 	private String email;
 
 	protected PersonEntity() {

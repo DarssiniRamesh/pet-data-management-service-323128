@@ -17,6 +17,22 @@ cd pet-data-management-service-323128/services/person-service
 ../..//pets_backend/gradlew bootRun
 ```
 
+## Database migrations (Flyway)
+
+This service uses **Flyway** for deterministic schema management.
+
+### Where migrations live
+- `src/main/resources/db/migration/`
+- Naming: `V<version>__<description>.sql` (e.g. `V1__create_persons_table.sql`)
+
+### How migrations are applied
+- On startup, Spring Boot auto-runs Flyway and records applied versions in `flyway_schema_history`.
+- Hibernate DDL generation is disabled (`spring.jpa.hibernate.ddl-auto=validate`) so the schema source of truth is the migrations.
+
+### Local development notes
+- Default DB is H2 in-memory. Each fresh process starts with an empty DB and Flyway re-creates the schema deterministically.
+- For a persistent DB (future cutover), keep Flyway enabled and point `spring.datasource.url` to the real database; Flyway will migrate it to the required version.
+
 Notes:
 - This service is a standalone Gradle project (it includes its own `build.gradle` and `settings.gradle`).
 - If you prefer, you can also run with a local Gradle installation:
