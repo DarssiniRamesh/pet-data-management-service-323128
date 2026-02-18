@@ -19,6 +19,11 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
  * - Downstream services can remain unauthenticated initially; gateway controls access.
  * - /health, /docs, /swagger-ui.html, /swagger-ui/**, /api-docs/** are permitted anonymously to
  *   make local dev and API discovery easy.
+ *
+ * Swagger aggregation note:
+ * - /api-docs is the gateway's own OpenAPI JSON (springdoc).
+ * - /api-docs/{service} are gateway-proxied downstream OpenAPI JSON endpoints (configured as Gateway routes),
+ *   and must remain anonymously accessible so Swagger UI can load them.
  */
 @Configuration
 @EnableWebFluxSecurity
@@ -32,6 +37,8 @@ public class SecurityConfig {
 						// Allow preflight without auth
 						.pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						// Allow basic ops / docs without auth (optional; can tighten later)
+						// NOTE: /api-docs/** includes both the gateway's OpenAPI JSON and proxied downstream specs
+						// (e.g., /api-docs/person-service, /api-docs/monolith) used by the aggregated Swagger UI dropdown.
 						.pathMatchers("/health", "/docs", "/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
 						.anyExchange().authenticated()
 				)
