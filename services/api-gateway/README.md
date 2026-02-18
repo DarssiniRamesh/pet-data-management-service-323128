@@ -23,13 +23,13 @@ cd pet-data-management-service-323128/pets_backend
 ### 2) Person Service
 ```bash
 cd pet-data-management-service-323128/services/person-service
-../../pets_backend/gradlew bootRun --args='--server.port=3002'
+./gradlew bootRun --args='--server.port=3002'
 ```
 
 ### 3) Gateway (client-facing)
 ```bash
 cd pet-data-management-service-323128/services/api-gateway
-../../pets_backend/gradlew bootRun --args='--server.port=3000'
+./gradlew bootRun --args='--server.port=3000'
 ```
 
 ## Auth
