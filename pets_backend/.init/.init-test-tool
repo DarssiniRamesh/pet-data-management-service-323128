@@ -1,0 +1,2 @@
+{ "working_directory": "/home/kavia/workspace/code-generation",
+ "command": "cd pet-data-management-service-323128/pets_backend && ./gradlew test || gradlew test" }
