@@ -1,0 +1,36 @@
+package com.example.personservice.system;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+@Tag(name = "System", description = "System endpoints for person-service")
+public class SystemController {
+
+	@GetMapping("/health")
+	@Operation(summary = "Health check", description = "Returns application health status")
+	public String health() {
+		return "OK";
+	}
+
+	@GetMapping("/docs")
+	@Operation(summary = "API Documentation", description = "Redirects to Swagger UI preserving original scheme/host/port")
+	public RedirectView docs(HttpServletRequest request) {
+		String target = UriComponentsBuilder
+				.fromHttpRequest(new ServletServerHttpRequest(request))
+				.replacePath("/swagger-ui.html")
+				.replaceQuery(null)
+				.build()
+				.toUriString();
+
+		RedirectView rv = new RedirectView(target);
+		rv.setHttp10Compatible(false);
+		return rv;
+	}
+}
