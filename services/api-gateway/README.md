@@ -32,17 +32,28 @@ cd pet-data-management-service-323128/services/api-gateway
 ./gradlew bootRun --args='--server.port=3000'
 ```
 
-## Auth
+## Auth (HTTP Basic)
 
-The gateway enforces HTTP Basic Auth for all routes except:
+The gateway enforces **HTTP Basic Auth** for all routes except:
 - `/health`
+- `/docs`
 - `/swagger-ui.html`, `/swagger-ui/**`
-- `/api-docs/**`
+- `/api-docs/**` (downstream OpenAPI JSON proxied via the gateway)
 
-Default credentials (dev only):
+What this means in your browser:
+- Visiting `http://<host>:3000/` (or any protected API path like `/application/person/**`) will show a **username/password prompt**.
+- Visiting `http://<host>:3000/swagger-ui.html` should **not** prompt (it is allowlisted).
+
+### Default credentials (dev only)
 - username: `admin`
 - password: `admin`
 
-Override via properties/env:
-- `gateway.security.basic.username`
-- `gateway.security.basic.password`
+### Configure credentials (recommended via env vars)
+Set the following environment variables:
+- `GATEWAY_SECURITY_BASIC_USERNAME`
+- `GATEWAY_SECURITY_BASIC_PASSWORD`
+
+These env vars are mapped to Spring properties `gateway.security.basic.username` / `gateway.security.basic.password` in
+`src/main/resources/application.properties`.
+
+See `.env.example` in this folder for a ready-to-copy template.
